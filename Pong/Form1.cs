@@ -254,7 +254,7 @@ namespace Pong
             //done
             #region ball collision with side walls (point scored)
 
-            if (ball.X < 0)  // ball hits left wall logic
+            if (ball.X <= 0)  // ball hits left wall logic
             {
                 // TODO
                 // --- play score sound
@@ -262,15 +262,36 @@ namespace Pong
                 // --- update player 2 score
                 player2Score++;
                 // TODO use if statement to check to see if player 2 has won the game. If true run
-                
+                if(player2Score == 5)
+                {
+                    GameOver();
+                }
                 // GameOver method. Else change direction of ball and call SetParameters method.
-
+                else
+                {
+                    SetParameters();
+                }
             }
 
-            // TODO same as above but this time check for collision with the right wall
-
+            if (ball.X >= this.Width-ball.Width)  // ball hits right wall logic
+            {
+                // --- play score sound
+                scoreSound.Play();
+                // --- update player 1 score
+                player1Score++;
+                // TODO use if statement to check to see if player 2 has won the game. If true run
+                if (player1Score == 5)
+                {
+                    GameOver();
+                }
+                // GameOver method. Else change direction of ball and call SetParameters method.
+                else
+                {
+                    SetParameters();
+                }
+            }
             #endregion
-            
+
             //refresh the screen, which causes the Form1_Paint method to run
             this.Refresh();
         }
