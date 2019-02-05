@@ -142,7 +142,7 @@ namespace Pong
             p2.X = this.Width - PADDLE_EDGE - p2.Width;
             p2.Y = this.Height / 2 - p2.Height / 2;
 
-            // TODO set Width and Height of ball
+            //set Width and Height of ball
             ball.Height = ball.Width = 10;
             //set starting X position for ball to middle of screen, (use this.Width and ball.Width)
             ball.X = this.Width / 2 - ball.Width / 2;
@@ -157,46 +157,86 @@ namespace Pong
         private void gameUpdateLoop_Tick(object sender, EventArgs e)
         {
             #region update ball position
-
             // TODO create code to move ball either left or right based on ballMoveRight and using BALL_SPEED
-            
 
+            if(ballMoveRight == true)
+            {
+                ball.X += BALL_SPEED;
+            }
+            else
+            {
+                ball.X -= BALL_SPEED;
+            }
             // TODO create code move ball either down or up based on ballMoveDown and using BALL_SPEED
 
+            if(ballMoveDown == true)
+            {
+                ball.Y += BALL_SPEED;
+            }
+            else
+            {
+                ball.Y -= BALL_SPEED;
+            }
             #endregion
-
+            //done
             #region update paddle positions
-
+                //create an if statement and code to move player 1 paddle up using p1.Y and PADDLE_SPEED
             if (aKeyDown == true && p1.Y > 0)
             {
-                // TODO create code to move player 1 paddle up using p1.Y and PADDLE_SPEED
+                //create code to move player 1 paddle up using p1.Y and PADDLE_SPEED
+                p1.Y -= PADDLE_SPEED;
             }
 
-            // TODO create an if statement and code to move player 1 paddle down using p1.Y and PADDLE_SPEED
+            //create an if statement and code to move player 1 paddle down using p1.Y and PADDLE_SPEED
+            if(zKeyDown == true && p1.Y < this.Height-p1.Height)
+            {
+                //create code to move player 1 paddle down using p1.Y and PADDLE_SPEED
+                p1.Y += PADDLE_SPEED;
+            }
+            //create an if statement and code to move player 2 paddle up using p2.Y and PADDLE_SPEED
+            if (jKeyDown == true && p2.Y > 0)
+            {
+                //create code to move player 1 paddle down using p1.Y and PADDLE_SPEED
+                p2.Y -= PADDLE_SPEED;
+            }
 
-            // TODO create an if statement and code to move player 2 paddle up using p2.Y and PADDLE_SPEED
-
-            // TODO create an if statement and code to move player 2 paddle down using p2.Y and PADDLE_SPEED
-
+            //create an if statement and code to move player 2 paddle down using p2.Y and PADDLE_SPEED
+            if (mKeyDown == true && p2.Y < this.Height - p2.Height)
+            {
+                //create code to move player 2 paddle down using p2.Y and PADDLE_SPEED
+                p2.Y += PADDLE_SPEED;
+            }
             #endregion
-
+            //done
             #region ball collision with top and bottom lines
 
             if (ball.Y < 0) // if ball hits top line
             {
-                // TODO use ballMoveDown boolean to change direction
-                // TODO play a collision sound
+                ballMoveDown = !ballMoveDown;
+                //play a collision sound
+                collisionSound.Play();
             }
             // TODO In an else if statement use ball.Y, this.Height, and ball.Width to check for collision with bottom line
             // If true use ballMoveDown down boolean to change direction
+            else if (ball.Y > this.Height - ball.Width)
+            {
+                ballMoveDown = !ballMoveDown;
+                collisionSound.Play();
+
+            }
 
             #endregion
-
+            //done
             #region ball collision with paddles
 
             // TODO create if statment that checks p1 collides with ball and if it does
-                 // --- play a "paddle hit" sound and
-                 // --- use ballMoveRight boolean to change direction
+            if (p1.IntersectsWith(ball))
+                {
+                // --- play a "paddle hit" sound
+                collisionSound.Play();
+                // --- use ballMoveRight boolean to change direction
+                ballMoveRight = !ballMoveRight;
+                }
 
             // TODO create if statment that checks p2 collides with ball and if it does
                 // --- play a "paddle hit" sound and
@@ -206,7 +246,6 @@ namespace Pong
              *  Instead of using two if statments as noted above see if you can create one
              *  if statement with multiple conditions to play a sound and change direction
              */
-
             #endregion
 
             #region ball collision with side walls (point scored)
