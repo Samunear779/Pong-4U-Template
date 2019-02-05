@@ -239,24 +239,30 @@ namespace Pong
                 }
 
             // TODO create if statment that checks p2 collides with ball and if it does
+            if (p2.IntersectsWith(ball))
+            {
                 // --- play a "paddle hit" sound and
+                collisionSound.Play();
                 // --- use ballMoveRight boolean to change direction
-            
+                ballMoveRight = !ballMoveRight;
+            }
             /*  ENRICHMENT
              *  Instead of using two if statments as noted above see if you can create one
              *  if statement with multiple conditions to play a sound and change direction
              */
             #endregion
-
+            //done
             #region ball collision with side walls (point scored)
 
             if (ball.X < 0)  // ball hits left wall logic
             {
                 // TODO
                 // --- play score sound
+                scoreSound.Play();
                 // --- update player 2 score
-
-                // TODO use if statement to check to see if player 2 has won the game. If true run 
+                player2Score++;
+                // TODO use if statement to check to see if player 2 has won the game. If true run
+                
                 // GameOver method. Else change direction of ball and call SetParameters method.
 
             }
