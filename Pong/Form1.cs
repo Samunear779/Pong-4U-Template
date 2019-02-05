@@ -1,7 +1,7 @@
 ﻿/*
- * Description:     A basic PONG simulator
- * Author:           
- * Date:            
+ A basic PONG simulator
+ Sam Near      
+ 4 Febuary 2019          
  */
 
 #region libraries
@@ -131,7 +131,6 @@ namespace Pong
 
             //set starting position for paddles on new game and point scored 
             const int PADDLE_EDGE = 20;  // buffer distance between screen edge and paddle            
-
             p1.Width = p2.Width = 10;    //height for both paddles set the same
             p1.Height = p2.Height = 40;  //width for both paddles set the same
 
@@ -144,9 +143,11 @@ namespace Pong
             p2.Y = this.Height / 2 - p2.Height / 2;
 
             // TODO set Width and Height of ball
-            // TODO set starting X position for ball to middle of screen, (use this.Width and ball.Width)
-            // TODO set starting Y position for ball to middle of screen, (use this.Height and ball.Height)
-
+            ball.Height = ball.Width = 10;
+            //set starting X position for ball to middle of screen, (use this.Width and ball.Width)
+            ball.X = this.Width / 2 - ball.Width / 2;
+            //set starting Y position for ball to middle of screen, (use this.Height and ball.Height)
+            ball.Y = this.Height / 2 - ball.Width / 2;
         }
 
         /// <summary>
@@ -158,6 +159,7 @@ namespace Pong
             #region update ball position
 
             // TODO create code to move ball either left or right based on ballMoveRight and using BALL_SPEED
+            
 
             // TODO create code move ball either down or up based on ballMoveDown and using BALL_SPEED
 
@@ -236,7 +238,6 @@ namespace Pong
         private void GameOver(string winner)
         {
             newGameOk = true;
-
             // TODO create game over logic
             // --- stop the gameUpdateLoop
             // --- show a message on the startLabel to indicate a winner, (need to Refresh).
@@ -247,10 +248,11 @@ namespace Pong
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            // TODO draw paddles using FillRectangle
-
-            // TODO draw ball using FillRectangle
-
+            //draw paddles using FillRectangle
+            e.Graphics.FillRectangle(drawBrush,p1);
+            e.Graphics.FillRectangle(drawBrush,p2);
+            //draw ball using FillRectangle
+            e.Graphics.FillEllipse(drawBrush, ball);
             // TODO draw scores to the screen using DrawString
         }
 
