@@ -264,7 +264,7 @@ namespace Pong
                 // TODO use if statement to check to see if player 2 has won the game. If true run
                 if(player2Score == 5)
                 {
-                    GameOver();
+                    GameOver("Player 2 Wins");
                 }
                 // GameOver method. Else change direction of ball and call SetParameters method.
                 else
@@ -282,7 +282,7 @@ namespace Pong
                 // TODO use if statement to check to see if player 2 has won the game. If true run
                 if (player1Score == 5)
                 {
-                    GameOver();
+                    GameOver("Player 1 Wins");
                 }
                 // GameOver method. Else change direction of ball and call SetParameters method.
                 else
@@ -306,9 +306,24 @@ namespace Pong
             newGameOk = true;
             // TODO create game over logic
             // --- stop the gameUpdateLoop
+            gameUpdateLoop.Stop();
             // --- show a message on the startLabel to indicate a winner, (need to Refresh).
+            if (player1Score == 5)
+            {
+                startLabel.Text = "Player 1 Wins";
+                this.Refresh();
+            }
+
+            else
+            {
+                startLabel.Text = "Player 2 Wins";
+                this.Refresh();
+            }
             // --- pause for two seconds 
+            this.Refresh();
+            Thread.Sleep(2000);
             // --- use the startLabel to ask the user if they want to play again
+            startLabel.Text = "Press space to play again";
 
         }
 
