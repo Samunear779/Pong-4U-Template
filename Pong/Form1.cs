@@ -32,6 +32,10 @@ namespace Pong
         // Sounds for game
         SoundPlayer scoreSound = new SoundPlayer(Properties.Resources.score);
         SoundPlayer collisionSound = new SoundPlayer(Properties.Resources.collision);
+        // create a random number generator 
+        Random randGen = new Random();
+        int ballDirectionRight = 1;
+        int ballDirectionUp = 1;
 
         //determines whether a key is being pressed or not
         Boolean aKeyDown, zKeyDown, jKeyDown, mKeyDown;
@@ -52,7 +56,7 @@ namespace Pong
         //player and game scores
         int player1Score = 0;
         int player2Score = 0;
-        int gameWinScore = 2;  // number of points needed to win game
+        int gameWinScore = 10;  // number of points needed to win game
 
         #endregion
 
@@ -222,7 +226,6 @@ namespace Pong
             {
                 ballMoveDown = !ballMoveDown;
                 collisionSound.Play();
-
             }
 
             #endregion
@@ -262,14 +265,24 @@ namespace Pong
                 // --- update player 2 score
                 player2Score++;
                 // TODO use if statement to check to see if player 2 has won the game. If true run
-                if(player2Score == 5)
+                if(player2Score == gameWinScore)
                 {
-                    GameOver("Player 2 Wins");
+                    GameOver("Player 2");
                 }
                 // GameOver method. Else change direction of ball and call SetParameters method.
                 else
                 {
                     SetParameters();
+                    ballDirectionRight = randGen.Next(1,3);
+                    if (ballDirectionRight == 1)
+                    {
+                        ballMoveRight = true;
+                    }
+                    else if (ballDirectionRight == 2)
+                    {
+                        ballMoveRight = false;
+                    }
+                    this.Refresh();
                 }
             }
 
@@ -280,14 +293,29 @@ namespace Pong
                 // --- update player 1 score
                 player1Score++;
                 // TODO use if statement to check to see if player 2 has won the game. If true run
-                if (player1Score == 5)
+                if (player1Score == gameWinScore)
                 {
-                    GameOver("Player 1 Wins");
+                    GameOver("Player 1");
                 }
                 // GameOver method. Else change direction of ball and call SetParameters method.
                 else
                 {
                     SetParameters();
+                    ballDirectionRight = randGen.Next(1,3);
+                    if (ballDirectionRight == 1)
+                    {
+                        ballMoveRight = true;
+                    }
+                    else if(ballDirectionRight == 2)
+                    {
+                        ballMoveRight = false;
+                    }
+
+                    ballDirectionUp = randGen.Next(3, 5);
+                    {
+
+                    }
+                    this.Refresh();
                 }
             }
             #endregion
@@ -303,25 +331,16 @@ namespace Pong
         /// <param name="winner">The player name to be shown as the winner</param>
         private void GameOver(string winner)
         {
+            startLabel.Visible = true;
+            startLabel.Text = winner + " wins";
             newGameOk = true;
             // TODO create game over logic
             // --- stop the gameUpdateLoop
             gameUpdateLoop.Stop();
             // --- show a message on the startLabel to indicate a winner, (need to Refresh).
-            if (player1Score == 5)
-            {
-                startLabel.Text = "Player 1 Wins";
-                this.Refresh();
-            }
-
-            else
-            {
-                startLabel.Text = "Player 2 Wins";
-                this.Refresh();
-            }
-            // --- pause for two seconds 
+            // --- pause for three seconds 
             this.Refresh();
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             // --- use the startLabel to ask the user if they want to play again
             startLabel.Text = "Press space to play again";
 
