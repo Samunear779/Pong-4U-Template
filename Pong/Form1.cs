@@ -27,7 +27,7 @@ namespace Pong
 
         //graphics objects for drawing
         SolidBrush drawBrush = new SolidBrush(Color.White);
-        Font drawFont = new Font("Courier New", 10);
+        Font drawFont = new Font("Courier New", 50);
 
         // Sounds for game
         SoundPlayer scoreSound = new SoundPlayer(Properties.Resources.score);
@@ -46,7 +46,7 @@ namespace Pong
         //ball directions, speed, and rectangle
         Boolean ballMoveRight = true;
         Boolean ballMoveDown = true;
-        const int BALL_SPEED = 4;
+        const int BALL_SPEED = 5;
         Rectangle ball;
 
         //paddle speeds and rectangles
@@ -56,7 +56,9 @@ namespace Pong
         //player and game scores
         int player1Score = 0;
         int player2Score = 0;
-        int gameWinScore = 10;  // number of points needed to win game
+        int gameWinScore = 3;  // number of points needed to win game
+        int player1HitCount = 0;
+        int player2HitCount = 0;
 
         #endregion
 
@@ -238,7 +240,9 @@ namespace Pong
                 // --- play a "paddle hit" sound
                 collisionSound.Play();
                 // --- use ballMoveRight boolean to change direction
-                ballMoveRight = !ballMoveRight;
+                ballMoveRight = true;
+                //change color
+                this.BackColor = Color.DarkKhaki;
                 }
 
             // TODO create if statment that checks p2 collides with ball and if it does
@@ -247,7 +251,9 @@ namespace Pong
                 // --- play a "paddle hit" sound and
                 collisionSound.Play();
                 // --- use ballMoveRight boolean to change direction
-                ballMoveRight = !ballMoveRight;
+                ballMoveRight = false;
+                //change color
+                this.BackColor = Color.Gold;
             }
             /*  ENRICHMENT
              *  Instead of using two if statments as noted above see if you can create one
@@ -348,12 +354,17 @@ namespace Pong
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            //draw paddles using FillRectangle
-            e.Graphics.FillRectangle(drawBrush,p1);
-            e.Graphics.FillRectangle(drawBrush,p2);
-            //draw ball using FillRectangle
-            e.Graphics.FillEllipse(drawBrush, ball);
-            // TODO draw scores to the screen using DrawString
+            if (newGameOk == false)
+            {
+                //draw paddles using FillRectangle
+                e.Graphics.FillRectangle(drawBrush, p1);
+                e.Graphics.FillRectangle(drawBrush, p2);
+                //draw ball using FillRectangle
+                e.Graphics.FillEllipse(drawBrush, ball);
+                // TODO draw scores to the screen using DrawString
+                e.Graphics.DrawString("" + player1Score, drawFont, drawBrush, 115, 40);
+                e.Graphics.DrawString("" + player2Score, drawFont, drawBrush, this.Width - 160, 40);
+            }
         }
 
     }
