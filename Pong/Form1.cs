@@ -28,6 +28,7 @@ namespace Pong
         //graphics objects for drawing
         SolidBrush drawBrush = new SolidBrush(Color.White);
         Font drawFont = new Font("Courier New", 50);
+        Font rallyFont = new Font("Courier New", 15);
 
         // Sounds for game
         SoundPlayer scoreSound = new SoundPlayer(Properties.Resources.score);
@@ -46,7 +47,7 @@ namespace Pong
         //ball directions, speed, and rectangle
         Boolean ballMoveRight = true;
         Boolean ballMoveDown = true;
-        const int BALL_SPEED = 5;
+        int ballSpeed = 5;
         Rectangle ball;
 
         //paddle speeds and rectangles
@@ -56,9 +57,8 @@ namespace Pong
         //player and game scores
         int player1Score = 0;
         int player2Score = 0;
-        int gameWinScore = 3;  // number of points needed to win game
-        int player1HitCount = 0;
-        int player2HitCount = 0;
+        int gameWinScore = 5;  // number of points needed to win game
+        int rallyScore = 0;
 
         #endregion
 
@@ -132,7 +132,9 @@ namespace Pong
                 player1Score = player2Score = 0;
                 newGameOk = false;
                 startLabel.Visible = false;
+                ballSpeed = 5;
                 gameUpdateLoop.Start();
+                this.BackColor = Color.Black;
             }
 
             //set starting position for paddles on new game and point scored 
@@ -154,6 +156,8 @@ namespace Pong
             ball.X = this.Width / 2 - ball.Width / 2;
             //set starting Y position for ball to middle of screen, (use this.Height and ball.Height)
             ball.Y = this.Height / 2 - ball.Width / 2;
+            rallyScore = 0;
+            ballSpeed = 5;
         }
 
         /// <summary>
@@ -167,21 +171,21 @@ namespace Pong
 
             if(ballMoveRight == true)
             {
-                ball.X += BALL_SPEED;
+                ball.X += ballSpeed;
             }
             else
             {
-                ball.X -= BALL_SPEED;
+                ball.X -= ballSpeed;
             }
             // TODO create code move ball either down or up based on ballMoveDown and using BALL_SPEED
 
             if(ballMoveDown == true)
             {
-                ball.Y += BALL_SPEED;
+                ball.Y += ballSpeed;
             }
             else
             {
-                ball.Y -= BALL_SPEED;
+                ball.Y -= ballSpeed;
             }
             #endregion
             //done
@@ -236,14 +240,19 @@ namespace Pong
 
             // TODO create if statment that checks p1 collides with ball and if it does
             if (p1.IntersectsWith(ball))
-                {
+            {
                 // --- play a "paddle hit" sound
                 collisionSound.Play();
                 // --- use ballMoveRight boolean to change direction
                 ballMoveRight = true;
                 //change color
                 this.BackColor = Color.DarkKhaki;
+                rallyScore++;
+                if (rallyScore % 10 == 0)
+                {
+                    ballSpeed++;
                 }
+            }
 
             // TODO create if statment that checks p2 collides with ball and if it does
             if (p2.IntersectsWith(ball))
@@ -254,6 +263,11 @@ namespace Pong
                 ballMoveRight = false;
                 //change color
                 this.BackColor = Color.Gold;
+                rallyScore++;
+                    if(rallyScore % 10 == 0)
+                {
+                    ballSpeed++;
+                }
             }
             /*  ENRICHMENT
              *  Instead of using two if statments as noted above see if you can create one
@@ -364,6 +378,7 @@ namespace Pong
                 // TODO draw scores to the screen using DrawString
                 e.Graphics.DrawString("" + player1Score, drawFont, drawBrush, 115, 40);
                 e.Graphics.DrawString("" + player2Score, drawFont, drawBrush, this.Width - 160, 40);
+                e.Graphics.DrawString("Rally Score: " + rallyScore, rallyFont, drawBrush, this.Width / 2 - 90,80);
             }
         }
 
