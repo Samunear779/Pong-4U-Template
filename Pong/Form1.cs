@@ -247,6 +247,7 @@ namespace Pong
                 ballMoveRight = true;
                 //change color
                 this.BackColor = Color.DarkKhaki;
+                //add a point to the rally score 
                 rallyScore++;
                 if (rallyScore % 10 == 0)
                 {
@@ -264,6 +265,7 @@ namespace Pong
                 //change color
                 this.BackColor = Color.Gold;
                 rallyScore++;
+                //increase ball speed by 1 every 10 hits 
                     if(rallyScore % 10 == 0)
                 {
                     ballSpeed++;
@@ -378,6 +380,7 @@ namespace Pong
                 // TODO draw scores to the screen using DrawString
                 e.Graphics.DrawString("" + player1Score, drawFont, drawBrush, 115, 40);
                 e.Graphics.DrawString("" + player2Score, drawFont, drawBrush, this.Width - 160, 40);
+                //draw rallyscore
                 e.Graphics.DrawString("Rally Score: " + rallyScore, rallyFont, drawBrush, this.Width / 2 - 90,80);
             }
         }
